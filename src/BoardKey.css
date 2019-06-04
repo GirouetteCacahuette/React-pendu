@@ -8,5 +8,6 @@
 }
 
 .pendu > .key.clicked {
-    
+    background: silver;
+    text-overline-color: grey;
 }
