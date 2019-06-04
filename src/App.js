@@ -7,7 +7,8 @@ var ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 class App extends Component {
     state = {
-        boardKeys: this.generateKeys()
+        boardKeys: this.generateKeys(),
+        clickedBoardKeys: []
     };
 
     generateKeys() {
@@ -21,16 +22,23 @@ class App extends Component {
     }
 
     // Arrow fx for binding
-    handleBoardKeyClick = boardKey => {
-        console.log(boardKey + ' clicked');
+    handleBoardKeyClick = index => {
+        const { clickedBoardKeys } = this.state;
+        this.setState({ clickedBoardKeys: [...clickedBoardKeys, index] });
     };
 
     render() {
-        const { boardKeys } = this.state;
+        const { boardKeys, clickedBoardKeys } = this.state;
         return (
             <div className="pendu">
                 {boardKeys.map((boardKey, index) => (
-                    <BoardKey key={index} boardKey={boardKey} feedback="unclicked" onClick={this.handleBoardKeyClick} />
+                    <BoardKey
+                        key={index}
+                        boardKey={boardKey}
+                        feedback={clickedBoardKeys.includes(index) ? 'clicked' : 'unclicked'}
+                        index={index}
+                        onClick={this.handleBoardKeyClick}
+                    />
                 ))}
             </div>
         );
