@@ -66,7 +66,7 @@ class App extends Component {
                             boardKey={boardKey}
                             feedback={clickedBoardKeys.includes(boardKey) ? 'clicked' : 'unclicked'}
                             index={index}
-                            onClick={this.handleBoardKeyClick}
+                            onClick={clickedBoardKeys.includes(boardKey) ? () => void 0 : this.handleBoardKeyClick}
                         />
                     ))}
                 </div>
