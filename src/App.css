@@ -5,3 +5,23 @@
   margin: auto;
   user-select: none;
 }
+
+.mysteryWord {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 50px auto;
+  user-select: none;
+  align-self: center;
+}
+
+.keyBoard {
+  display: flex;
+  flex-wrap: wrap;
+  width: 400px;
+  margin: auto;
+  user-select: none;
+}
+
+.letter {
+  margin: 0 10px;
+}

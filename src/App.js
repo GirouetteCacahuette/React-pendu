@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import shuffle from 'lodash.shuffle';
 import './App.css';
 
 import BoardKey from './BoardKey';
 
-var ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const WORDS = ['RADIS', 'CITRON', 'ECHALOTE', 'AMANDE', 'CHAMPIGNON', 'BANANE'];
+
+const MysteryLetter = ({ letter, feedback }) => (
+    <div className={`letter ${feedback}`}>
+        <span className="letter">{feedback === 'discovered' ? letter : '_'}</span>
+    </div>
+);
+
+MysteryLetter.propTypes = {
+    letter: PropTypes.string.isRequired,
+    feedback: PropTypes.oneOf(['discovered', 'undiscovered'])
+};
 
 class App extends Component {
     state = {
         boardKeys: this.generateKeys(),
-        clickedBoardKeys: []
+        clickedBoardKeys: [],
+        mysteryWord: this.generateMysteryWord()
     };
 
     generateKeys() {
@@ -21,25 +36,40 @@ class App extends Component {
         return result;
     }
 
+    generateMysteryWord() {
+        const mysteryWord = shuffle(WORDS)[0];
+        return mysteryWord.split('');
+    }
+
     // Arrow fx for binding
-    handleBoardKeyClick = index => {
+    handleBoardKeyClick = boardKey => {
         const { clickedBoardKeys } = this.state;
-        this.setState({ clickedBoardKeys: [...clickedBoardKeys, index] });
+        this.setState({ clickedBoardKeys: [...clickedBoardKeys, boardKey] });
     };
 
     render() {
-        const { boardKeys, clickedBoardKeys } = this.state;
+        const { boardKeys, clickedBoardKeys, mysteryWord } = this.state;
         return (
             <div className="pendu">
-                {boardKeys.map((boardKey, index) => (
-                    <BoardKey
-                        key={index}
-                        boardKey={boardKey}
-                        feedback={clickedBoardKeys.includes(index) ? 'clicked' : 'unclicked'}
-                        index={index}
-                        onClick={this.handleBoardKeyClick}
-                    />
-                ))}
+                <div className="mysteryWord">
+                    {mysteryWord.map(letter => (
+                        <MysteryLetter
+                            letter={letter}
+                            feedback={clickedBoardKeys.includes(letter) ? 'discovered' : 'undiscovered'}
+                        />
+                    ))}
+                </div>
+                <div className="keyBoard">
+                    {boardKeys.map((boardKey, index) => (
+                        <BoardKey
+                            key={index}
+                            boardKey={boardKey}
+                            feedback={clickedBoardKeys.includes(boardKey) ? 'clicked' : 'unclicked'}
+                            index={index}
+                            onClick={this.handleBoardKeyClick}
+                        />
+                    ))}
+                </div>
             </div>
         );
     }

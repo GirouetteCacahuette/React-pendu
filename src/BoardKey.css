@@ -1,4 +1,4 @@
-.pendu > .key {
+.keyBoard > .key {
     font-size: 2em;
     flex: 1 1 calc(100% / 6 - 0.4em);
     outline: 0.08em solid silver;
@@ -7,7 +7,12 @@
     cursor: default;
 }
 
-.pendu > .key.clicked {
+.keyBoard > .key.clicked {
     background: silver;
     text-overline-color: grey;
+    cursor: not-allowed;
+}
+
+.keyBoard > .key.clicked > .key {
+    color: grey;
 }
